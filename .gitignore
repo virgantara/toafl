@@ -1,0 +1,13 @@
+protected/runtime/*
+protected/runtime/*/*
+protected/tests/*
+protected/data/*
+assets/*
+
+database.php
+
+*.bat
+*.zip
+*.log
+*.sql
+
