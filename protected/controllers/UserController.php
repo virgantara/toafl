@@ -1,6 +1,6 @@
 <?php
 
-class SoalController extends Controller
+class UserController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,7 +28,7 @@ class SoalController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','beginTest'),
+				'actions'=>array('index','view','reg'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -45,39 +45,24 @@ class SoalController extends Controller
 		);
 	}
 
-	public function actionBeginTest($id)
+	public function actionReg()
 	{
+		$model=new User;
 
-		if(empty($id)) exit;
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
 
-		$this->layout = '//layouts/column1';
-		$soal = Soal::model()->findAll();
-		$petunjuk = Petunjuk::model()->findAll();
-
-		$userJawaban = new UserJawaban;
-		$user = User::model()->findByPk($id);
-
-		if(isset($_POST['btnSubmit']))
+		if(isset($_POST['User']))
 		{
-			
-			$benar = 0;
-			for($i=1;$i<=10;$i++)
-			{
-				$value = $_POST['opsi_'.$i];
-				if($value == 1)
-					$benar++;
-			}
+			$model->attributes=$_POST['User'];
+			if($model->save())
+				$this->redirect(array('soal/beginTest','id'=>$model->user_id));
 
-			echo 'Total Benar : '.$benar;
-			exit;
+			
 		}
 
-
-		$this->render('beginTest',array(
-			'model' => $soal,
-			'petunjuk' => $petunjuk,
-			'userJawaban' => $userJawaban,
-			'user' => $user
+		$this->render('reg',array(
+			'model'=>$model,
 		));
 	}
 
@@ -98,16 +83,16 @@ class SoalController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Soal;
+		$model=new User;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Soal']))
+		if(isset($_POST['User']))
 		{
-			$model->attributes=$_POST['Soal'];
+			$model->attributes=$_POST['User'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_soal));
+				$this->redirect(array('view','id'=>$model->user_id));
 		}
 
 		$this->render('create',array(
@@ -127,11 +112,11 @@ class SoalController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Soal']))
+		if(isset($_POST['User']))
 		{
-			$model->attributes=$_POST['Soal'];
+			$model->attributes=$_POST['User'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_soal));
+				$this->redirect(array('view','id'=>$model->user_id));
 		}
 
 		$this->render('update',array(
@@ -158,7 +143,7 @@ class SoalController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Soal');
+		$dataProvider=new CActiveDataProvider('User');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -169,10 +154,10 @@ class SoalController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Soal('search');
+		$model=new User('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Soal']))
-			$model->attributes=$_GET['Soal'];
+		if(isset($_GET['User']))
+			$model->attributes=$_GET['User'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -183,12 +168,12 @@ class SoalController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Soal the loaded model
+	 * @return User the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Soal::model()->findByPk($id);
+		$model=User::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -196,11 +181,11 @@ class SoalController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Soal $model the model to be validated
+	 * @param User $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='soal-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

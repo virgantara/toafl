@@ -67,7 +67,8 @@ foreach($model as $soal)
 
 <div class="view">
 <div class="soal">	
-
+<input type="hidden" name="soal_<?php echo $i;?>" value="<?php echo $soal->id_soal;?>"/>
+		
 <?php 
 echo $i.'.&nbsp;';	
 echo CHtml::encode($soal->konten); 
