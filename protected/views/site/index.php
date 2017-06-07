@@ -43,8 +43,9 @@ foreach($model as $soal)
 
 <div class="view">
 <div class="soal">	
-<?php 
 
+<?php 
+echo $i.'.&nbsp;';	
 echo CHtml::encode($soal->konten); 
 
 ?>
@@ -70,7 +71,7 @@ if(!empty($soal->soalPilihans))
 		echo $pil->pilihan.'&nbsp;&nbsp;&nbsp;';
 		
 		?>
-		
+
 </label>
 		<?php
 		$j++;
