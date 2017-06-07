@@ -16,7 +16,20 @@ $this->pageTitle=Yii::app()->name;
 		font-family: 'Lateef';
 		font-size: 28px;
 		color: black;
-		text-align: right
+		text-align: right;
+
+	}
+
+	label.options{
+		border-top: 1px solid;
+		border-bottom: 1px solid;
+		border-right: 1px solid;
+		border-left: 1px solid;
+		/*padding : 2px 3px;*/
+	}
+
+	label.options{
+		 cursor: pointer; 
 	}
 </style>
 
@@ -72,18 +85,18 @@ if(!empty($soal->soalPilihans))
 	$j = 0;
 	foreach($soal->soalPilihans as $pil)
 	{
-		// if($j == 2)
-		// 	echo '<br>';
+		if($j == 2)
+			echo '<br><br>';
 		
 		?>
-		<label>
+		<label class="options">
 		<input type="radio" name="opsi_<?php echo $i;?>" value="<?php echo $pil->is_right;?>"/>
 		<?php
 		echo $pil->pilihan.'&nbsp;&nbsp;&nbsp;';
 		
 		?>
 
-</label>
+</label>&nbsp;&nbsp;
 		<?php
 		$j++;
 	}
