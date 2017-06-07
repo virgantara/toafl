@@ -28,7 +28,7 @@ class SoalController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','beginTest'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -43,6 +43,29 @@ class SoalController extends Controller
 				'users'=>array('*'),
 			),
 		);
+	}
+
+	public function actionBeginTest()
+	{
+
+		$this->layout = '//layouts/column1';
+		$soal = Soal::model()->findAll();
+		$petunjuk = Petunjuk::model()->findAll();
+
+		$userJawaban = new UserJawaban;
+
+		if(isset($_POST['UserJawaban']))
+		{
+			$userJawaban->attributes = $_POST['UserJawaban'];
+
+
+		}
+
+		$this->render('beginTest',array(
+			'model' => $soal,
+			'petunjuk' => $petunjuk,
+			'userJawaban' => $userJawaban
+		));
 	}
 
 	/**
