@@ -4,17 +4,88 @@
 $this->pageTitle=Yii::app()->name;
 ?>
 
-<h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
+<style type="text/css">
+	div.soal,div.petunjuk{
+		font-family: 'Lateef';
+		font-size: 36px;
+		color: black;
+		text-align: right
+	}
 
-<p>Congratulations! You have successfully created your Yii application.</p>
+	div.jawaban{
+		font-family: 'Lateef';
+		font-size: 28px;
+		color: black;
+		text-align: right
+	}
+</style>
 
-<p>You may change the content of this page by modifying the following two files:</p>
-<ul>
-	<li>View file: <code><?php echo __FILE__; ?></code></li>
-	<li>Layout file: <code><?php echo $this->getLayoutFile('main'); ?></code></li>
-</ul>
+<div class="petunjuk">
+<?php 
 
-<p>For more details on how to further develop this application, please read
-the <a href="http://www.yiiframework.com/doc/">documentation</a>.
-Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
-should you have any questions.</p>
+foreach($petunjuk as $p)
+{
+	
+	if($p->urutan == 3)
+		echo '<strong>'.$p->isi.'</strong><br>';
+	else
+		echo $p->isi.'<br>';
+}
+?>
+</div>
+<?php
+$i=1;
+foreach($model as $soal)
+{
+
+
+?>
+
+<div class="view">
+<div class="soal">	
+<?php 
+
+echo CHtml::encode($soal->konten); 
+
+?>
+</div>
+<div class="jawaban">	
+
+<?php
+
+if(!empty($soal->soalPilihans))
+{
+	echo '<br>';
+	
+	$j = 0;
+	foreach($soal->soalPilihans as $pil)
+	{
+		if($j == 2)
+			echo '<br>';
+		
+		?>
+		<label>
+		<input type="radio" name="opsi_<?php echo $i;?>" value="<?php echo $pil->is_right;?>"/>
+		<?php
+		echo $pil->pilihan.'&nbsp;&nbsp;&nbsp;';
+		
+		?>
+		
+</label>
+		<?php
+		$j++;
+	}
+}
+
+
+?>
+
+</div>	
+
+</div>
+
+<?php 
+
+$i++;
+}
+?>
